@@ -1,0 +1,521 @@
+{
+  "nodes": {
+    "START": {
+      "id": "START",
+      "type": "start",
+      "label": "Begin",
+      "text": "Good evening. Take a breath. Let's look at your day \u2014 not to judge it, but to understand it.",
+      "next": "A1_OPEN"
+    },
+    "A1_OPEN": {
+      "id": "A1_OPEN",
+      "type": "question",
+      "axis": 1,
+      "label": "Day in a word",
+      "text": "How would you describe today in one word?",
+      "options": [
+        {
+          "text": "Productive",
+          "next": "A1_D1",
+          "signal": "axis1:internal"
+        },
+        {
+          "text": "Tough",
+          "next": "A1_D1",
+          "signal": "axis1:external"
+        },
+        {
+          "text": "Mixed",
+          "next": "A1_D1",
+          "signal": "axis1:internal"
+        },
+        {
+          "text": "Frustrating",
+          "next": "A1_D1",
+          "signal": "axis1:external"
+        }
+      ]
+    },
+    "A1_D1": {
+      "id": "A1_D1",
+      "type": "decision",
+      "label": "Route I",
+      "conditions": [
+        {
+          "type": "answer_in",
+          "node": "A1_OPEN",
+          "values": [
+            "Productive",
+            "Mixed"
+          ],
+          "goTo": "A1_Q2_HIGH"
+        },
+        {
+          "else": "A1_Q2_LOW"
+        }
+      ]
+    },
+    "A1_Q2_HIGH": {
+      "id": "A1_Q2_HIGH",
+      "type": "question",
+      "axis": 1,
+      "label": "What worked?",
+      "text": "You called it '{A1_OPEN.answer}'. When something went well today, what made it happen?",
+      "options": [
+        {
+          "text": "I prepared and executed deliberately",
+          "next": "A1_Q3",
+          "signal": "axis1:internal"
+        },
+        {
+          "text": "I adapted when the plan changed",
+          "next": "A1_Q3",
+          "signal": "axis1:internal"
+        },
+        {
+          "text": "The team pulled together",
+          "next": "A1_Q3",
+          "signal": "axis1:internal"
+        },
+        {
+          "text": "Things just fell into place",
+          "next": "A1_Q3",
+          "signal": "axis1:external"
+        }
+      ]
+    },
+    "A1_Q2_LOW": {
+      "id": "A1_Q2_LOW",
+      "type": "question",
+      "axis": 1,
+      "label": "What broke?",
+      "text": "You called it '{A1_OPEN.answer}'. When things got hard, what was your first instinct?",
+      "options": [
+        {
+          "text": "Find what I could still control",
+          "next": "A1_Q3",
+          "signal": "axis1:internal"
+        },
+        {
+          "text": "Push through regardless",
+          "next": "A1_Q3",
+          "signal": "axis1:internal"
+        },
+        {
+          "text": "Feel frustrated by the circumstances",
+          "next": "A1_Q3",
+          "signal": "axis1:external"
+        },
+        {
+          "text": "Wait for someone to step in",
+          "next": "A1_Q3",
+          "signal": "axis1:external"
+        }
+      ]
+    },
+    "A1_Q3": {
+      "id": "A1_Q3",
+      "type": "question",
+      "axis": 1,
+      "label": "Losing control",
+      "text": "Think about the moment today when you had the least control. What did you do with that feeling?",
+      "options": [
+        {
+          "text": "Acknowledged it, then focused on what I could still change",
+          "next": "A1_D2",
+          "signal": "axis1:internal"
+        },
+        {
+          "text": "Used it as fuel to push harder",
+          "next": "A1_D2",
+          "signal": "axis1:internal"
+        },
+        {
+          "text": "Let it color the rest of my day",
+          "next": "A1_D2",
+          "signal": "axis1:external"
+        },
+        {
+          "text": "Buried it and hoped it would pass",
+          "next": "A1_D2",
+          "signal": "axis1:external"
+        }
+      ]
+    },
+    "A1_D2": {
+      "id": "A1_D2",
+      "type": "decision",
+      "label": "Axis I tally",
+      "conditions": [
+        {
+          "type": "signal_dominant",
+          "axis": "axis1",
+          "dominant": "internal",
+          "goTo": "A1_R_INTERNAL"
+        },
+        {
+          "else": "A1_R_EXTERNAL"
+        }
+      ]
+    },
+    "A1_R_INTERNAL": {
+      "id": "A1_R_INTERNAL",
+      "type": "reflection",
+      "axis": 1,
+      "label": "Victor",
+      "text": "You navigated today rather than just surviving it. That's not about being in control of everything \u2014 it's about staying in contact with what you can affect. That instinct is worth noticing.",
+      "next": "BRIDGE_1_2"
+    },
+    "A1_R_EXTERNAL": {
+      "id": "A1_R_EXTERNAL",
+      "type": "reflection",
+      "axis": 1,
+      "label": "Victim",
+      "text": "Today pulled your attention outward \u2014 to what others did or didn't do, to things you couldn't change. That's a natural response to a hard day. But somewhere in that stretch, you made calls. What was the smallest one you made entirely on your own?",
+      "next": "BRIDGE_1_2"
+    },
+    "BRIDGE_1_2": {
+      "id": "BRIDGE_1_2",
+      "type": "bridge",
+      "label": "Axis I \u2192 II",
+      "text": "Now let's shift \u2014 from how you handled what happened, to what you gave while it was happening.",
+      "next": "A2_OPEN"
+    },
+    "A2_OPEN": {
+      "id": "A2_OPEN",
+      "type": "question",
+      "axis": 2,
+      "label": "How I showed up",
+      "text": "Think about the people you interacted with today. Which best describes how you showed up?",
+      "options": [
+        {
+          "text": "I actively helped someone who needed it",
+          "next": "A2_D1",
+          "signal": "axis2:contribution"
+        },
+        {
+          "text": "I shared knowledge or taught someone",
+          "next": "A2_D1",
+          "signal": "axis2:contribution"
+        },
+        {
+          "text": "I focused mostly on getting my own work done",
+          "next": "A2_D1",
+          "signal": "axis2:entitlement"
+        },
+        {
+          "text": "I felt let down by how others treated my effort",
+          "next": "A2_D1",
+          "signal": "axis2:entitlement"
+        }
+      ]
+    },
+    "A2_D1": {
+      "id": "A2_D1",
+      "type": "decision",
+      "label": "Route II",
+      "conditions": [
+        {
+          "type": "answer_in",
+          "node": "A2_OPEN",
+          "values": [
+            "I actively helped someone who needed it",
+            "I shared knowledge or taught someone"
+          ],
+          "goTo": "A2_Q2_CONTRIB"
+        },
+        {
+          "else": "A2_Q2_ENTITLE"
+        }
+      ]
+    },
+    "A2_Q2_CONTRIB": {
+      "id": "A2_Q2_CONTRIB",
+      "type": "question",
+      "axis": 2,
+      "label": "Why I gave",
+      "text": "When you gave today \u2014 time, attention, effort \u2014 what prompted it?",
+      "options": [
+        {
+          "text": "I saw a need and had the capacity to fill it",
+          "next": "A2_Q3",
+          "signal": "axis2:contribution"
+        },
+        {
+          "text": "I've been on the receiving end \u2014 it costs little",
+          "next": "A2_Q3",
+          "signal": "axis2:contribution"
+        },
+        {
+          "text": "I was asked and I said yes",
+          "next": "A2_Q3",
+          "signal": "axis2:contribution"
+        },
+        {
+          "text": "I hoped it would come back to me somehow",
+          "next": "A2_Q3",
+          "signal": "axis2:entitlement"
+        }
+      ]
+    },
+    "A2_Q2_ENTITLE": {
+      "id": "A2_Q2_ENTITLE",
+      "type": "question",
+      "axis": 2,
+      "label": "No credit",
+      "text": "When your effort wasn't acknowledged today, what happened inside you?",
+      "options": [
+        {
+          "text": "Let it go \u2014 the work matters more than credit",
+          "next": "A2_Q3",
+          "signal": "axis2:contribution"
+        },
+        {
+          "text": "Noted it, but kept going anyway",
+          "next": "A2_Q3",
+          "signal": "axis2:contribution"
+        },
+        {
+          "text": "Felt quietly resentful",
+          "next": "A2_Q3",
+          "signal": "axis2:entitlement"
+        },
+        {
+          "text": "Started holding back my effort",
+          "next": "A2_Q3",
+          "signal": "axis2:entitlement"
+        }
+      ]
+    },
+    "A2_Q3": {
+      "id": "A2_Q3",
+      "type": "question",
+      "axis": 2,
+      "label": "Without credit",
+      "text": "If tomorrow no one noticed anything you did today \u2014 same work, zero recognition \u2014 would you have shown up any differently?",
+      "options": [
+        {
+          "text": "No \u2014 the work is the point",
+          "next": "A2_D2",
+          "signal": "axis2:contribution"
+        },
+        {
+          "text": "Probably not, though recognition still matters to me",
+          "next": "A2_D2",
+          "signal": "axis2:contribution"
+        },
+        {
+          "text": "Honestly yes \u2014 I need to feel seen to keep going",
+          "next": "A2_D2",
+          "signal": "axis2:entitlement"
+        },
+        {
+          "text": "Yes \u2014 I'm exhausted by giving without return",
+          "next": "A2_D2",
+          "signal": "axis2:entitlement"
+        }
+      ]
+    },
+    "A2_D2": {
+      "id": "A2_D2",
+      "type": "decision",
+      "label": "Axis II tally",
+      "conditions": [
+        {
+          "type": "signal_dominant",
+          "axis": "axis2",
+          "dominant": "contribution",
+          "goTo": "A2_R_CONTRIBUTION"
+        },
+        {
+          "else": "A2_R_ENTITLEMENT"
+        }
+      ]
+    },
+    "A2_R_CONTRIBUTION": {
+      "id": "A2_R_CONTRIBUTION",
+      "type": "reflection",
+      "axis": 2,
+      "label": "Giver",
+      "text": "You gave today without needing a receipt. That's not a small thing \u2014 most people are quietly keeping score. The fact that you're not, or at least trying not to, is what separates someone who grows an organization from someone who merely inhabits it.",
+      "next": "BRIDGE_2_3"
+    },
+    "A2_R_ENTITLEMENT": {
+      "id": "A2_R_ENTITLEMENT",
+      "type": "reflection",
+      "axis": 2,
+      "label": "Entitled",
+      "text": "Wanting recognition isn't a flaw \u2014 it's human. But notice what it does: when the ledger becomes the point, every interaction becomes a transaction. What would it feel like to give something today that you'll never get credit for, and find that enough?",
+      "next": "BRIDGE_2_3"
+    },
+    "BRIDGE_2_3": {
+      "id": "BRIDGE_2_3",
+      "type": "bridge",
+      "label": "Axis II \u2192 III",
+      "text": "One more shift \u2014 from what you contributed, to who was in your field of vision when you did it.",
+      "next": "A3_OPEN"
+    },
+    "A3_OPEN": {
+      "id": "A3_OPEN",
+      "type": "question",
+      "axis": 3,
+      "label": "Who I saw",
+      "text": "When you think about today's hardest moment, whose experience beyond your own comes to mind?",
+      "options": [
+        {
+          "text": "Just mine \u2014 it was my problem to navigate",
+          "next": "A3_Q2_NARROW",
+          "signal": "axis3:selfcentric"
+        },
+        {
+          "text": "My team \u2014 we were all under the same pressure",
+          "next": "A3_Q2_WIDE",
+          "signal": "axis3:altrocentric"
+        },
+        {
+          "text": "A colleague who had it harder than me",
+          "next": "A3_Q2_WIDE",
+          "signal": "axis3:altrocentric"
+        },
+        {
+          "text": "The person we're ultimately trying to serve",
+          "next": "A3_Q2_WIDE",
+          "signal": "axis3:altrocentric"
+        }
+      ]
+    },
+    "A3_Q2_WIDE": {
+      "id": "A3_Q2_WIDE",
+      "type": "question",
+      "axis": 3,
+      "label": "With others",
+      "text": "You held others in view today. When you noticed someone struggling, what did you do?",
+      "options": [
+        {
+          "text": "I checked in \u2014 even when I had my own fires",
+          "next": "A3_Q3",
+          "signal": "axis3:altrocentric"
+        },
+        {
+          "text": "I felt their pressure and wanted to help",
+          "next": "A3_Q3",
+          "signal": "axis3:altrocentric"
+        },
+        {
+          "text": "I noticed but kept moving \u2014 I had to prioritize",
+          "next": "A3_Q3",
+          "signal": "axis3:selfcentric"
+        },
+        {
+          "text": "I tried to help but my own needs won out",
+          "next": "A3_Q3",
+          "signal": "axis3:selfcentric"
+        }
+      ]
+    },
+    "A3_Q2_NARROW": {
+      "id": "A3_Q2_NARROW",
+      "type": "question",
+      "axis": 3,
+      "label": "Just me",
+      "text": "Your focus was mostly on your own experience today. What pulls you out of that frame when it does shift?",
+      "options": [
+        {
+          "text": "When I'm less overwhelmed and have more bandwidth",
+          "next": "A3_Q3",
+          "signal": "axis3:selfcentric"
+        },
+        {
+          "text": "When someone directly asks me for help",
+          "next": "A3_Q3",
+          "signal": "axis3:selfcentric"
+        },
+        {
+          "text": "When I remember what the team is trying to build together",
+          "next": "A3_Q3",
+          "signal": "axis3:altrocentric"
+        },
+        {
+          "text": "When I see someone visibly struggling beside me",
+          "next": "A3_Q3",
+          "signal": "axis3:altrocentric"
+        }
+      ]
+    },
+    "A3_Q3": {
+      "id": "A3_Q3",
+      "type": "question",
+      "axis": 3,
+      "label": "What mattered",
+      "text": "At the end of today, what felt most meaningful \u2014 even briefly?",
+      "options": [
+        {
+          "text": "A result I personally delivered",
+          "next": "A3_D1",
+          "signal": "axis3:selfcentric"
+        },
+        {
+          "text": "A moment I made easier for someone else",
+          "next": "A3_D1",
+          "signal": "axis3:altrocentric"
+        },
+        {
+          "text": "A decision that will matter for the team, not just me",
+          "next": "A3_D1",
+          "signal": "axis3:altrocentric"
+        },
+        {
+          "text": "Nothing \u2014 I just got through it",
+          "next": "A3_D1",
+          "signal": "axis3:selfcentric"
+        }
+      ]
+    },
+    "A3_D1": {
+      "id": "A3_D1",
+      "type": "decision",
+      "label": "Axis III tally",
+      "conditions": [
+        {
+          "type": "signal_dominant",
+          "axis": "axis3",
+          "dominant": "altrocentric",
+          "goTo": "A3_R_ALTROCENTRIC"
+        },
+        {
+          "else": "A3_R_SELFCENTRIC"
+        }
+      ]
+    },
+    "A3_R_ALTROCENTRIC": {
+      "id": "A3_R_ALTROCENTRIC",
+      "type": "reflection",
+      "axis": 3,
+      "label": "Altrocentric",
+      "text": "You moved through today with others in your field of vision. That's not a soft skill \u2014 it's the clearest signal of someone who creates value beyond what their job description requires. The widest contributors are rarely the loudest ones. They're the ones who know what the room needs before the room says it.",
+      "next": "SUMMARY"
+    },
+    "A3_R_SELFCENTRIC": {
+      "id": "A3_R_SELFCENTRIC",
+      "type": "reflection",
+      "axis": 3,
+      "label": "Self-centric",
+      "text": "Today's frame was mostly your own. That's honest, and often necessary. But Maslow's last and least-cited insight was this: the people who reported the deepest meaning weren't the ones who had the most \u2014 they were the ones who had shifted from 'what do I need?' to 'what does this moment need from me?' What would that shift feel like tomorrow?",
+      "next": "SUMMARY"
+    },
+    "SUMMARY": {
+      "id": "SUMMARY",
+      "type": "summary",
+      "label": "Today's map",
+      "text": "You described today as '{A1_OPEN.answer}'.\n\nOn Agency: you leaned toward {axis1_dominant} \u2014 {axis1_summary}.\n\nOn Contribution: you leaned toward {axis2_dominant} \u2014 {axis2_summary}.\n\nOn Radius: you leaned toward {axis3_dominant} \u2014 {axis3_summary}.\n\nThese aren't grades. They're coordinates. Same time tomorrow.",
+      "next": "END"
+    },
+    "END": {
+      "id": "END",
+      "type": "end",
+      "label": "Tomorrow",
+      "text": "See you tomorrow.",
+      "next": null
+    }
+  }
+}
